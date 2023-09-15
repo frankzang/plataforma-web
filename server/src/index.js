@@ -6,6 +6,7 @@ const PORT = process.env.PORT || 3000;
 const app = express();
 
 app.get('/', (_req, res) => {
+  console.log("ola")
   res.send('Hello World');
 });
 
