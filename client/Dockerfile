@@ -1,5 +1,13 @@
 FROM node:18-alpine
-WORKDIR /client
+
+WORKDIR /app
+
 COPY . .
+
 RUN npm install
-EXPOSE 8080
+
+RUN npm run build
+
+EXPOSE 8000
+
+CMD ["npm", "run", "dev"]
