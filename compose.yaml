@@ -5,11 +5,20 @@ services:
       - '3000:3000'
     volumes:
       - ./api:/api
-
+    command: sh -c "cd /api && npm install && npm run dev"
   client:
     build: ./client
     ports:
       - '8080:8080'
     volumes:
       - ./client:/client
-      - /usr/src/app/node_modules
+    command: sh -c "cd /client && npm install && npm run dev"
+
+  education-plataform-pg:
+    image: bitnami/postgresql
+    ports: 
+      - 5432:5432 
+    environment:
+      - POSTGRESQL_USERNAME=docker
+      - POSTGRESQL_PASSWORD=docker
+      - POSTGRESQL_DATABASE=educationplataform
