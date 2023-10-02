@@ -10,7 +10,169 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model student {
-  id   Int    @id @default(autoincrement())
-  name String
+model Aluno {
+  id          Int         @id @default(autoincrement())
+  nome        String
+  turma_id    Int
+  endereco    String
+  telefone    String
+  cpf         String
+  email       String
+  habilitacao Habilitacao @relation(fields: [id_habilitacao], references: [id])
+
+  id_habilitacao Int
+  status         Status @relation(fields: [idStatus], references: [id])
+
+  idStatus      Int
+  password      Int
+  created_at    DateTime        @updatedAt
+  Curso         Curso[]
+  Matricula     Matricula[]
+  Bolsas        Bolsas?
+  LivroAlugueis LivroAlugueis[]
+  Eventos       Eventos[]
+  pagamento     pagamento[]
+
+  @@map("aluno")
+}
+
+model Status {
+  id         Int       @id @default(autoincrement())
+  name       String
+  created_at DateTime  @updatedAt
+  Eventos    Eventos[]
+  Aluno      Aluno[]
+
+  @@map("status")
+}
+
+model Habilitacao {
+  id         Int          @id @default(autoincrement())
+  name       String
+  Disciplina Disciplina[]
+  Aluno      Aluno[]
+  Curso      Curso[]
+
+  @@map("habilitacao")
+}
+
+model PeriodoAcademico {
+  id        Int         @id @default(autoincrement())
+  name      String      @unique
+  Matricula Matricula[]
+
+  @@map("periodoacademico")
+}
+
+model Disciplina {
+  id          Int         @id @default(autoincrement())
+  name        String
+  habilitacao Habilitacao @relation(fields: [id_habilitacao], references: [id])
+
+  id_habilitacao Int
+  Matricula      Matricula[]
+
+  @@map("disciplina")
+}
+
+model Curso {
+  id    Int    @id @default(autoincrement())
+  name  String
+  aluno Aluno  @relation(fields: [alunoId], references: [id])
+
+  alunoId     Int
+  turno       String
+  price       Int
+  habilitacao Habilitacao @relation(fields: [idHabilitacao], references: [id])
+
+  idHabilitacao Int
+  Bolsas        Bolsas[]
+
+  @@map("curso")
+}
+
+model Matricula {
+  id    Int   @id @default(autoincrement())
+  aluno Aluno @relation(fields: [alunoId], references: [id])
+
+  alunoId          Int
+  disciplina       Disciplina       @relation(fields: [idDisciplina], references: [id])
+  idDisciplina     Int
+  periodoAcademico PeriodoAcademico @relation(fields: [idLetivo], references: [id])
+
+  idLetivo Int
+
+  @@map("matricula")
+}
+
+model pagamento {
+  id            Int      @id @default(autoincrement())
+  pagamentoData DateTime @updatedAt
+  aluno         Aluno    @relation(fields: [idAluno], references: [id])
+
+  idAluno         Int
+  valor           Int
+  metodoPagamento String
+
+  @@map("pagamento")
+}
+
+model Bolsas {
+  id    Int    @id @default(autoincrement())
+  nome  String
+  valor Int
+  aluno Aluno  @relation(fields: [idAluno], references: [id])
+
+  idAluno Int   @unique
+  curso   Curso @relation(fields: [idCurso], references: [id])
+
+  idCurso Int
+
+  @@map("bolsas")
+}
+
+model Eventos {
+  id          Int    @id @default(autoincrement())
+  nome        String
+  description String
+  coverImg    String
+  status      Status @relation(fields: [statusId], references: [id])
+
+  statusId Int
+  aluno    Aluno @relation(fields: [alunoId], references: [id])
+
+  alunoId     Int
+  dataInicial DateTime
+  dataFinal   DateTime
+  created_at  DateTime @updatedAt
+  updated_at  DateTime
+
+  @@map("eventos")
+}
+
+model Livro {
+  id Int @id @default(autoincrement())
+
+  nome          String
+  editora       String
+  autor         String
+  quantidade    String
+  disponivel    Boolean
+  LivroAlugueis LivroAlugueis[]
+
+  @@map("livros")
+}
+
+model LivroAlugueis {
+  id    Int   @id @default(autoincrement())
+  livro Livro @relation(fields: [idLivro], references: [id])
+
+  idLivro Int
+  aluno   Aluno @relation(fields: [idAluno], references: [id])
+
+  idAluno    Int
+  devolvido  Boolean
+  created_at DateTime @updatedAt
+
+  @@map("livrosalugueis")
 }
