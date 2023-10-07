@@ -24,7 +24,7 @@ model Aluno {
   status         Status @relation(fields: [idStatus], references: [id])
 
   idStatus      Int
-  password      Int
+  password      String
   created_at    DateTime        @updatedAt
   Curso         Curso[]
   Matricula     Matricula[]
