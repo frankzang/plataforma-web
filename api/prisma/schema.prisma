@@ -12,6 +12,7 @@ datasource db {
 
 model Aluno {
   id          Int         @id @default(autoincrement())
+  ra          String      @unique
   nome        String
   turma_id    Int
   endereco    String
