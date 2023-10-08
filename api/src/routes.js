@@ -1,5 +1,5 @@
 import {Router} from 'express'
-import {session} from "./controller/session"
+import {session} from "./controller/session.js"
 
 export const router = Router()
 

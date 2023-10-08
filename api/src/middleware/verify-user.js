@@ -12,5 +12,5 @@ export function verifyUser(request, response, next) {
     } catch (error) {
         request.clearCookie("token")    
     }
-    
+     
 }

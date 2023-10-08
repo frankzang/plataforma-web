@@ -1,4 +1,4 @@
-import { prisma } from "../../prisma/bd/prisma";
+import { prisma } from "../../prisma/bd/prisma.js";
 
 export function studentRepository(ra) {
  const student = prisma.aluno.findUnique({

@@ -1,5 +1,5 @@
-import {studentRepository} from '../repository/aluno-repository'
-import { AppError } from './error/appError'
+import {studentRepository} from '../repository/aluno-repository.js'
+import { AppError } from './error/appError.js'
  
 
 export function authenticate(ra, password) {
