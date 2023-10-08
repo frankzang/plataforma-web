@@ -1,4 +1,12 @@
 services:
+  education-plataform-pg:
+    image: bitnami/postgresql
+    ports: 
+      - 5432:5432 
+    environment:
+      - POSTGRESQL_USERNAME=docker
+      - POSTGRESQL_PASSWORD=docker
+      - POSTGRESQL_DATABASE=educationplataform
   api:
     build: ./api
     ports:
@@ -13,11 +21,3 @@ services:
     volumes:
       - ./client:/client
     command: sh -c "cd /client && npm install && npm run dev"
-  education-plataform-pg:
-    image: bitnami/postgresql
-    ports: 
-      - 5432:5432 
-    environment:
-      - POSTGRESQL_USERNAME=docker
-      - POSTGRESQL_PASSWORD=docker
-      - POSTGRESQL_DATABASE=educationplataform
