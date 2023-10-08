@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
 }
 
 datasource db {
@@ -12,6 +13,7 @@ datasource db {
 
 model Aluno {
   id          Int         @id @default(autoincrement())
+  ra          String      @unique
   nome        String
   turma_id    Int
   endereco    String
@@ -78,9 +80,9 @@ model Disciplina {
 model Curso {
   id    Int    @id @default(autoincrement())
   name  String
-  aluno Aluno  @relation(fields: [alunoId], references: [id])
+  aluno Aluno? @relation(fields: [alunoId], references: [id])
 
-  alunoId     Int
+  alunoId     Int?
   turno       String
   price       Int
   habilitacao Habilitacao @relation(fields: [idHabilitacao], references: [id])
