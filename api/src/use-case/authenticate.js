@@ -2,9 +2,10 @@ import {studentRepository} from '../repository/aluno-repository.js'
 import { AppError } from './error/appError.js'
  
 
-export function authenticate(ra, password) {
+export async function authenticate(ra, password) {
 
-const student = studentRepository(ra)
+const student = await studentRepository(ra)
+
 
 if(password != student.password) {
     throw new AppError("Credenciais inválidas", 401)
