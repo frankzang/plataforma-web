@@ -15,35 +15,35 @@ model Aluno {
   id          Int         @id @default(autoincrement())
   ra          String      @unique
   nome        String
-  turma_id    Int
+  turmaId     Int
   endereco    String
   telefone    String
   cpf         String
   email       String
-  habilitacao Habilitacao @relation(fields: [id_habilitacao], references: [id])
+  habilitacao Habilitacao @relation(fields: [idHabilitacao], references: [id])
 
-  id_habilitacao Int
-  status         Status @relation(fields: [idStatus], references: [id])
+  idHabilitacao Int
+  status        Status @relation(fields: [idStatus], references: [id])
 
   idStatus      Int
   password      String
-  created_at    DateTime        @updatedAt
+  createdAt     DateTime        @updatedAt
   Curso         Curso[]
-  Matricula     Matricula[]
+  matricula     Matricula[]
   Bolsas        Bolsas?
   LivroAlugueis LivroAlugueis[]
-  Eventos       Eventos[]
+  eventos       Eventos[]
   pagamento     pagamento[]
 
   @@map("aluno")
 }
 
 model Status {
-  id         Int       @id @default(autoincrement())
-  name       String
-  created_at DateTime  @updatedAt
-  Eventos    Eventos[]
-  Aluno      Aluno[]
+  id        Int       @id @default(autoincrement())
+  name      String
+  createdAt DateTime  @updatedAt
+  eventos   Eventos[]
+  aluno     Aluno[]
 
   @@map("status")
 }
@@ -51,9 +51,9 @@ model Status {
 model Habilitacao {
   id         Int          @id @default(autoincrement())
   name       String
-  Disciplina Disciplina[]
-  Aluno      Aluno[]
-  Curso      Curso[]
+  disciplina Disciplina[]
+  aluno      Aluno[]
+  curso      Curso[]
 
   @@map("habilitacao")
 }
@@ -61,7 +61,7 @@ model Habilitacao {
 model PeriodoAcademico {
   id        Int         @id @default(autoincrement())
   name      String      @unique
-  Matricula Matricula[]
+  matricula Matricula[]
 
   @@map("periodoacademico")
 }
@@ -69,10 +69,10 @@ model PeriodoAcademico {
 model Disciplina {
   id          Int         @id @default(autoincrement())
   name        String
-  habilitacao Habilitacao @relation(fields: [id_habilitacao], references: [id])
+  habilitacao Habilitacao @relation(fields: [idHabilitacao], references: [id])
 
-  id_habilitacao Int
-  Matricula      Matricula[]
+  idHabilitacao Int
+  Mmtricula     Matricula[]
 
   @@map("disciplina")
 }
@@ -88,7 +88,7 @@ model Curso {
   habilitacao Habilitacao @relation(fields: [idHabilitacao], references: [id])
 
   idHabilitacao Int
-  Bolsas        Bolsas[]
+  bolsas        Bolsas[]
 
   @@map("curso")
 }
@@ -146,8 +146,8 @@ model Eventos {
   alunoId     Int
   dataInicial DateTime
   dataFinal   DateTime
-  created_at  DateTime @updatedAt
-  updated_at  DateTime
+  createdAt   DateTime @updatedAt
+  updatedAt   DateTime
 
   @@map("eventos")
 }
@@ -160,7 +160,7 @@ model Livro {
   autor         String
   quantidade    String
   disponivel    Boolean
-  LivroAlugueis LivroAlugueis[]
+  livroAlugueis LivroAlugueis[]
 
   @@map("livros")
 }
@@ -172,9 +172,9 @@ model LivroAlugueis {
   idLivro Int
   aluno   Aluno @relation(fields: [idAluno], references: [id])
 
-  idAluno    Int
-  devolvido  Boolean
-  created_at DateTime @updatedAt
+  idAluno   Int
+  devolvido Boolean
+  createdAt DateTime @updatedAt
 
   @@map("livrosalugueis")
 }
