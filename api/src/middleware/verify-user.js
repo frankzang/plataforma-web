@@ -1,13 +1,28 @@
-import { Jwt } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
+import { prisma } from '../../prisma/bd/prisma.js';
 
-export function verifyUser(request, response, next) {
+/**
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
+export async function verifyUser(req, res, next) {
   try {
-    const token = request.cookies.token;
+    const token = req.cookies.token;
 
-    const user = Jwt.verify(token, process.env.SECREAT_KEY);
+    const user = jwt.verify(token, process.env.SECREAT_KEY);
+
+    const userFromDb = await prisma.aluno.findUnique({
+      where: {
+        ra: user.user,
+      },
+    });
+
+    res.locals.auth = user;
+    res.locals.user = userFromDb;
 
     next();
   } catch (error) {
-    request.clearCookie('token');
+    console.error(error);
+    res.clearCookie('token');
   }
 }
