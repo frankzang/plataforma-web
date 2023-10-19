@@ -32,7 +32,7 @@ model Aluno {
   matricula     Matricula[]
   Bolsas        Bolsas?
   LivroAlugueis LivroAlugueis[]
-  eventos       Eventos[]
+  eventos       EventosInscricao[]
   pagamento     pagamento[]
 
   @@map("aluno")
@@ -139,18 +139,28 @@ model Eventos {
   description String
   coverImg    String
   status      Status @relation(fields: [statusId], references: [id])
-
   statusId Int
-  aluno    Aluno @relation(fields: [alunoId], references: [id])
-
-  alunoId     Int
   dataInicial DateTime
   dataFinal   DateTime
   createdAt   DateTime @updatedAt
-  updatedAt   DateTime
+  updatedAt   DateTime?
+  alunos EventosInscricao[]
 
   @@map("eventos")
 }
+
+model EventosInscricao {
+  id  Int    @id @default(autoincrement())
+  evento    Eventos @relation(fields: [idEvent], references: [id])
+
+  idEvent Int 
+  aluno    Aluno @relation(fields: [ra], references: [ra])
+  
+  ra String
+
+@@map("eventoinscricoes")
+}
+
 
 model Livro {
   id Int @id @default(autoincrement())
