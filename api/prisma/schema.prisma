@@ -25,15 +25,16 @@ model Aluno {
   idHabilitacao Int
   status        Status @relation(fields: [idStatus], references: [id])
 
-  idStatus      Int
-  password      String
-  createdAt     DateTime        @updatedAt
-  Curso         Curso[]
-  matricula     Matricula[]
-  Bolsas        Bolsas?
-  LivroAlugueis LivroAlugueis[]
-  eventos       EventosInscricao[]
-  pagamento     pagamento[]
+  idStatus        Int
+  password        String
+  createdAt       DateTime           @updatedAt
+  Curso           Curso[]
+  matricula       Matricula[]
+  Bolsas          Bolsas?
+  LivroAlugueis   LivroAlugueis[]
+  eventos         EventosInscricao[]
+  pagamento       pagamento[]
+  AlunoDisciplina AlunoDisciplina[]
 
   @@map("aluno")
 }
@@ -71,10 +72,23 @@ model Disciplina {
   name        String
   habilitacao Habilitacao @relation(fields: [idHabilitacao], references: [id])
 
-  idHabilitacao Int
-  Mmtricula     Matricula[]
+  idHabilitacao   Int
+  Matricula       Matricula[]
+  Professor       Professor[]
+  AlunoDisciplina AlunoDisciplina[]
 
   @@map("disciplina")
+}
+
+model AlunoDisciplina {
+  id         Int        @id @default(autoincrement())
+  aluno      Aluno      @relation(fields: [idAluno], references: [id])
+  disciplina Disciplina @relation(fields: [idDisciplina], references: [id])
+
+  idAluno      Int
+  idDisciplina Int
+
+  @@map("alunodisciplina")
 }
 
 model Curso {
@@ -134,33 +148,32 @@ model Bolsas {
 }
 
 model Eventos {
-  id          Int    @id @default(autoincrement())
+  id          Int                @id @default(autoincrement())
   nome        String
   description String
   coverImg    String
-  status      Status @relation(fields: [statusId], references: [id])
-  statusId Int
+  status      Status             @relation(fields: [statusId], references: [id])
+  statusId    Int
   dataInicial DateTime
   dataFinal   DateTime
-  createdAt   DateTime @updatedAt
+  createdAt   DateTime           @updatedAt
   updatedAt   DateTime?
-  alunos EventosInscricao[]
+  alunos      EventosInscricao[]
 
   @@map("eventos")
 }
 
 model EventosInscricao {
-  id  Int    @id @default(autoincrement())
-  evento    Eventos @relation(fields: [idEvent], references: [id])
+  id     Int     @id @default(autoincrement())
+  evento Eventos @relation(fields: [idEvent], references: [id])
 
-  idEvent Int 
-  aluno    Aluno @relation(fields: [ra], references: [ra])
-  
+  idEvent Int
+  aluno   Aluno @relation(fields: [ra], references: [ra])
+
   ra String
 
-@@map("eventoinscricoes")
+  @@map("eventoinscricoes")
 }
-
 
 model Livro {
   id Int @id @default(autoincrement())
@@ -187,4 +200,20 @@ model LivroAlugueis {
   createdAt DateTime @updatedAt
 
   @@map("livrosalugueis")
+}
+
+model Professor {
+  id        Int      @id @default(autoincrement())
+  nome      String
+  cpf       String
+  email     String
+  endereco  String
+  telefone  String
+  createdAt DateTime @updatedAt
+
+  disciplina Disciplina @relation(fields: [idDisciplina], references: [id])
+
+  idDisciplina Int
+
+  @@map("professor")
 }
