@@ -25,16 +25,17 @@ model Aluno {
   idHabilitacao Int
   status        Status @relation(fields: [idStatus], references: [id])
 
-  idStatus        Int
-  password        String
-  createdAt       DateTime           @updatedAt
-  Curso           Curso[]
-  matricula       Matricula[]
-  Bolsas          Bolsas?
-  LivroAlugueis   LivroAlugueis[]
-  eventos         EventosInscricao[]
-  pagamento       pagamento[]
-  AlunoDisciplina AlunoDisciplina[]
+  idStatus             Int
+  password             String
+  createdAt            DateTime               @updatedAt
+  Curso                Curso[]
+  matricula            Matricula[]
+  Bolsas               Bolsas?
+  LivroAlugueis        LivroAlugueis[]
+  eventos              EventosInscricao[]
+  pagamento            pagamento[]
+  AlunoDisciplina      AlunoDisciplina[]
+  FrequenciaDisciplina FrequenciaDisciplina[]
 
   @@map("aluno")
 }
@@ -72,10 +73,11 @@ model Disciplina {
   name        String
   habilitacao Habilitacao @relation(fields: [idHabilitacao], references: [id])
 
-  idHabilitacao   Int
-  Matricula       Matricula[]
-  Professor       Professor[]
-  AlunoDisciplina AlunoDisciplina[]
+  idHabilitacao        Int
+  Matricula            Matricula[]
+  Professor            Professor[]
+  AlunoDisciplina      AlunoDisciplina[]
+  FrequenciaDisciplina FrequenciaDisciplina[]
 
   @@map("disciplina")
 }
@@ -216,4 +218,19 @@ model Professor {
   idDisciplina Int
 
   @@map("professor")
+}
+
+model FrequenciaDisciplina {
+  id         Int        @id @default(autoincrement())
+  aluno      Aluno      @relation(fields: [idAluno], references: [id])
+  disciplina Disciplina @relation(fields: [idDisciplina], references: [id])
+
+  idAluno       Int
+  idDisciplina  Int
+  presenca      Boolean
+  createdAt     DateTime @updatedAt
+  data          DateTime @default(now())
+  justificativa String?
+
+  @@map("frequenciadisciplina")
 }
