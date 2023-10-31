@@ -25,7 +25,6 @@ app.use(express.json());
 app.use(router);
 
 app.get('/', (req, res) => {
-  console.log(req.cookies);
   res.send('Hello World');
 });
 
@@ -34,7 +33,7 @@ app.use((err, req, res, next) => {
     return res.status(err.statusCode).json({ message: err.message });
   }
 
-  console.log(err);
+  console.error(err);
 
   return res.status(500).json({ message: 'Internal Server Error.' });
 });

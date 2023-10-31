@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { prisma } from '../../prisma/bd/prisma.js';
+import { AppError } from '../use-case/error/appError.js';
 
 /**
  * @param {import('express').Request} req
@@ -8,6 +9,8 @@ import { prisma } from '../../prisma/bd/prisma.js';
 export async function verifyUser(req, res, next) {
   try {
     const token = req.cookies.token;
+
+    if (!token) throw new AppError('Invalid token', 401);
 
     const user = jwt.verify(token, process.env.SECREAT_KEY);
 
@@ -24,5 +27,6 @@ export async function verifyUser(req, res, next) {
   } catch (error) {
     console.error(error);
     res.clearCookie('token');
+    res.status(error.statusCode).json({ message: error.message });
   }
 }
