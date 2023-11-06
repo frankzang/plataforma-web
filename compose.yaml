@@ -33,6 +33,20 @@ services:
       - ./api:/api
     command: sh -c "cd /api && npm install && npm run dev"
     
+  api-2:
+    build: ./api
+    ports:
+      - '3008:3008'
+    environment:
+      - PORT=3008
+      - CLIENT_URL=http://localhost:8080
+      - SECREAT_KEY=123
+      - DATABASE_URL=postgres://docker:docker@education-plataform-pg:5432/educationplataform
+    volumes:
+      - ./api:/api
+    command: sh -c "cd /api && npm install && npm run dev"
+    
+
   client:
     build: ./client
     ports:
