@@ -9,6 +9,17 @@ services:
       - POSTGRESQL_DATABASE=educationplataform
     volumes:
       - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  nginx:
+    container_name: nginx
+    image: nginx
+    restart: always
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./nginx/config:/etc/nginx/conf.d/
+      - ./nginx/logs:/var/logs/nginx
+
   api:
     build: ./api
     ports:
