@@ -15,7 +15,7 @@ services:
     image: nginx
     restart: always
     ports:
-      - "8000:8000"
+      - "8080:8080"
     volumes:
       - ./nginx/config:/etc/nginx/conf.d/
       - ./nginx/logs:/var/logs/nginx
@@ -23,7 +23,7 @@ services:
   api:
     build: ./api
     ports:
-      - '3000:3000'
+      - '80'
     environment:
       - PORT=3000
       - CLIENT_URL=http://localhost:8080
@@ -36,9 +36,9 @@ services:
   api-2:
     build: ./api
     ports:
-      - '3008:3008'
+      - '80'
     environment:
-      - PORT=3008
+      - PORT=3000
       - CLIENT_URL=http://localhost:8080
       - SECREAT_KEY=123
       - DATABASE_URL=postgres://docker:docker@education-plataform-pg:5432/educationplataform
@@ -50,7 +50,7 @@ services:
   client:
     build: ./client
     ports:
-      - '8080:8080'
+      - '8000:8000'
     volumes:
       - ./client:/client
     command: sh -c "cd /client && npm install && npm run dev"
