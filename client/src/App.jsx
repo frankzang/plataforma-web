@@ -1,14 +1,17 @@
-import './App.css';
-import { RouterProvider } from 'react-router-dom';
-import { router } from './routes';
-import { ChakraProvider } from '@chakra-ui/react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import PaginaInicial from '../src/pages/PaginaInicial/index.tsx';
+import Eventos from '../src/pages/Eventos/index.tsx';
+import Central from '../src/pages/Central/index.tsx';
 
 function App() {
   return (
-    <ChakraProvider>
-      <RouterProvider router={router} />
-    </ChakraProvider>
+    <BrowserRouter>
+      <Routes>
+        <Route index element={<PaginaInicial />} />
+        <Route path="/eventos" element={<Eventos />} />
+        <Route path="/central" element={<Central />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
-
 export default App;
