@@ -13,7 +13,7 @@ export const router = Router();
 router.post('/session', session);
 
 // User
-router.get('/user', verifyUser, getUser);
+router.get('/user', /* verifyUser, */ getUser);
 
 // Courses
 router.get('/courses', verifyUser, getCourses);
@@ -22,7 +22,7 @@ router.get('/courses', verifyUser, getCourses);
 router.get('/disciplines', verifyUser, getDisciplines);
 
 // Events
-router.get('/event', verifyUser, getAllEvents);
+router.get('/event', /*verifyUser, */ getAllEvents);
 
 router.post('/event', verifyUser, subscribeEvent);
 

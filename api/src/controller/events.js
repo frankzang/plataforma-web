@@ -16,9 +16,10 @@ export async function subscribeEvent(req, res) {
 }
 
 export async function getAllEvents(req, res) {
-  const events = await prisma.eventos.findMany();
+  // console.log('adadadasdas');
+  // const events = await prisma.eventos.findMany();
 
-  return res.status(200).json(events ?? []);
+  return res.status(200).json([{ id: 1 }, { id: 2 }, { id: 3 }]);
 }
 
 export async function getEventById(req, res) {

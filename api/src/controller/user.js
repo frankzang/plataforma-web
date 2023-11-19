@@ -7,9 +7,11 @@ import { prisma } from '../../prisma/bd/prisma.js';
 export async function getUser(req, res) {
   const { user } = res.locals.auth;
 
+  console.log({user});
+
   const student = await prisma.aluno.findUnique({
     where: {
-      ra: user,
+      ra: '12252663218',
     },
   });
   if (student) return res.json(student);

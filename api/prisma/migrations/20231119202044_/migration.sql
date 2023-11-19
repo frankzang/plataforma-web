@@ -1,25 +1,17 @@
-/*
-  Warnings:
-
-  - You are about to drop the `student` table. If the table is not empty, all the data it contains will be lost.
-
-*/
--- DropTable
-DROP TABLE "student";
-
 -- CreateTable
 CREATE TABLE "aluno" (
     "id" SERIAL NOT NULL,
+    "ra" TEXT NOT NULL,
     "nome" TEXT NOT NULL,
-    "turma_id" INTEGER NOT NULL,
+    "turmaId" INTEGER NOT NULL,
     "endereco" TEXT NOT NULL,
     "telefone" TEXT NOT NULL,
     "cpf" TEXT NOT NULL,
     "email" TEXT NOT NULL,
-    "id_habilitacao" INTEGER NOT NULL,
+    "idHabilitacao" INTEGER NOT NULL,
     "idStatus" INTEGER NOT NULL,
-    "password" INTEGER NOT NULL,
-    "created_at" TIMESTAMP(3) NOT NULL,
+    "password" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "aluno_pkey" PRIMARY KEY ("id")
 );
@@ -28,7 +20,7 @@ CREATE TABLE "aluno" (
 CREATE TABLE "status" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "created_at" TIMESTAMP(3) NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "status_pkey" PRIMARY KEY ("id")
 );
@@ -53,16 +45,25 @@ CREATE TABLE "periodoacademico" (
 CREATE TABLE "disciplina" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "id_habilitacao" INTEGER NOT NULL,
+    "idHabilitacao" INTEGER NOT NULL,
 
     CONSTRAINT "disciplina_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "alunodisciplina" (
+    "id" SERIAL NOT NULL,
+    "idAluno" INTEGER NOT NULL,
+    "idDisciplina" INTEGER NOT NULL,
+
+    CONSTRAINT "alunodisciplina_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "curso" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "alunoId" INTEGER NOT NULL,
+    "alunoId" INTEGER,
     "turno" TEXT NOT NULL,
     "price" INTEGER NOT NULL,
     "idHabilitacao" INTEGER NOT NULL,
@@ -109,13 +110,21 @@ CREATE TABLE "eventos" (
     "description" TEXT NOT NULL,
     "coverImg" TEXT NOT NULL,
     "statusId" INTEGER NOT NULL,
-    "alunoId" INTEGER NOT NULL,
     "dataInicial" TIMESTAMP(3) NOT NULL,
     "dataFinal" TIMESTAMP(3) NOT NULL,
-    "created_at" TIMESTAMP(3) NOT NULL,
-    "updated_at" TIMESTAMP(3) NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL,
+    "updatedAt" TIMESTAMP(3),
 
     CONSTRAINT "eventos_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "eventoinscricoes" (
+    "id" SERIAL NOT NULL,
+    "idEvent" INTEGER NOT NULL,
+    "ra" TEXT NOT NULL,
+
+    CONSTRAINT "eventoinscricoes_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -136,10 +145,40 @@ CREATE TABLE "livrosalugueis" (
     "idLivro" INTEGER NOT NULL,
     "idAluno" INTEGER NOT NULL,
     "devolvido" BOOLEAN NOT NULL,
-    "created_at" TIMESTAMP(3) NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "livrosalugueis_pkey" PRIMARY KEY ("id")
 );
+
+-- CreateTable
+CREATE TABLE "professor" (
+    "id" SERIAL NOT NULL,
+    "nome" TEXT NOT NULL,
+    "cpf" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "endereco" TEXT NOT NULL,
+    "telefone" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL,
+    "idDisciplina" INTEGER NOT NULL,
+
+    CONSTRAINT "professor_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "frequenciadisciplina" (
+    "id" SERIAL NOT NULL,
+    "idAluno" INTEGER NOT NULL,
+    "idDisciplina" INTEGER NOT NULL,
+    "presenca" BOOLEAN NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL,
+    "data" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "justificativa" TEXT,
+
+    CONSTRAINT "frequenciadisciplina_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateIndex
+CREATE UNIQUE INDEX "aluno_ra_key" ON "aluno"("ra");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "periodoacademico_name_key" ON "periodoacademico"("name");
@@ -148,16 +187,22 @@ CREATE UNIQUE INDEX "periodoacademico_name_key" ON "periodoacademico"("name");
 CREATE UNIQUE INDEX "bolsas_idAluno_key" ON "bolsas"("idAluno");
 
 -- AddForeignKey
-ALTER TABLE "aluno" ADD CONSTRAINT "aluno_id_habilitacao_fkey" FOREIGN KEY ("id_habilitacao") REFERENCES "habilitacao"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "aluno" ADD CONSTRAINT "aluno_idHabilitacao_fkey" FOREIGN KEY ("idHabilitacao") REFERENCES "habilitacao"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "aluno" ADD CONSTRAINT "aluno_idStatus_fkey" FOREIGN KEY ("idStatus") REFERENCES "status"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "disciplina" ADD CONSTRAINT "disciplina_id_habilitacao_fkey" FOREIGN KEY ("id_habilitacao") REFERENCES "habilitacao"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "disciplina" ADD CONSTRAINT "disciplina_idHabilitacao_fkey" FOREIGN KEY ("idHabilitacao") REFERENCES "habilitacao"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "curso" ADD CONSTRAINT "curso_alunoId_fkey" FOREIGN KEY ("alunoId") REFERENCES "aluno"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "alunodisciplina" ADD CONSTRAINT "alunodisciplina_idAluno_fkey" FOREIGN KEY ("idAluno") REFERENCES "aluno"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "alunodisciplina" ADD CONSTRAINT "alunodisciplina_idDisciplina_fkey" FOREIGN KEY ("idDisciplina") REFERENCES "disciplina"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "curso" ADD CONSTRAINT "curso_alunoId_fkey" FOREIGN KEY ("alunoId") REFERENCES "aluno"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "curso" ADD CONSTRAINT "curso_idHabilitacao_fkey" FOREIGN KEY ("idHabilitacao") REFERENCES "habilitacao"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -184,10 +229,22 @@ ALTER TABLE "bolsas" ADD CONSTRAINT "bolsas_idCurso_fkey" FOREIGN KEY ("idCurso"
 ALTER TABLE "eventos" ADD CONSTRAINT "eventos_statusId_fkey" FOREIGN KEY ("statusId") REFERENCES "status"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "eventos" ADD CONSTRAINT "eventos_alunoId_fkey" FOREIGN KEY ("alunoId") REFERENCES "aluno"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "eventoinscricoes" ADD CONSTRAINT "eventoinscricoes_idEvent_fkey" FOREIGN KEY ("idEvent") REFERENCES "eventos"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "eventoinscricoes" ADD CONSTRAINT "eventoinscricoes_ra_fkey" FOREIGN KEY ("ra") REFERENCES "aluno"("ra") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "livrosalugueis" ADD CONSTRAINT "livrosalugueis_idLivro_fkey" FOREIGN KEY ("idLivro") REFERENCES "livros"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "livrosalugueis" ADD CONSTRAINT "livrosalugueis_idAluno_fkey" FOREIGN KEY ("idAluno") REFERENCES "aluno"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "professor" ADD CONSTRAINT "professor_idDisciplina_fkey" FOREIGN KEY ("idDisciplina") REFERENCES "disciplina"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "frequenciadisciplina" ADD CONSTRAINT "frequenciadisciplina_idAluno_fkey" FOREIGN KEY ("idAluno") REFERENCES "aluno"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "frequenciadisciplina" ADD CONSTRAINT "frequenciadisciplina_idDisciplina_fkey" FOREIGN KEY ("idDisciplina") REFERENCES "disciplina"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
