@@ -5,9 +5,9 @@ import { prisma } from '../../prisma/bd/prisma.js';
  * @param {import('express').Response} res
  */
 export async function getUser(req, res) {
-  const { user } = res.locals.auth;
+  // const { user } = res.locals.auth;
 
-  console.log({user});
+  // console.log({user});
 
   const student = await prisma.aluno.findUnique({
     where: {
