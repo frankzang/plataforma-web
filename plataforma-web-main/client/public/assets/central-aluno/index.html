@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style/index.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feed</title>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <img src="img/imagem perfil.jpg" alt="Perfil">
+            <h2>Eric Cartman</h2>
+            <h3>Sistema de informação</h3>
+            <nav class="menu">
+                <ul>
+                    <li><a href="#">Feed</a></li>
+                    <li><a href="#">Central do aluno</a></li>
+                    <li><a href="#">Eventos</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="right-content">
+            <header>
+                <div class="menu-superior">
+                    <img src="img/logo-unifap.png" alt="Logo UNIFAP">
+                    <ul>
+                        <li><a href="#">Cursos</a></li>
+                        <li><a href="#">Fale Conosco</a></li>
+                    </ul>
+                </div>
+                <div class="content-buttons">
+                    <button id="btn-disciplinas" onclick="changeContent('disciplinas')">Disciplinas</button>
+                    <button id="btn-notas" onclick="changeContent('notas')">Notas e Frequências</button>
+                    <button id="btn-horarios" onclick="changeContent('horarios')">Horários</button>
+                </div>
+            </header>
+            <div id="content-disciplinas" class="content active">
+                <div class="card-disciplina">
+                    <img src="img/imagem-curso-1.png" alt="Nome da Disciplina">
+                    <h4>Nome da Disciplina</h4>
+                    <p>Detalhes da Disciplina</p>
+                </div>
+                <div class="card-disciplina">
+                    <img src="img/imagem-curso-1.png" alt="Nome da Disciplina">
+                    <h4>Nome da Disciplina</h4>
+                    <p>Detalhes da Disciplina</p>
+                </div>
+                <div class="card-disciplina">
+                    <img src="img/imagem-curso-1.png" alt="Nome da Disciplina">
+                    <h4>Nome da Disciplina</h4>
+                    <p>Detalhes da Disciplina</p>
+                </div>
+                <div class="card-disciplina">
+                    <img src="img/imagem-curso-1.png" alt="Nome da Disciplina">
+                    <h4>Nome da Disciplina</h4>
+                    <p>Detalhes da Disciplina</p>
+                </div>
+                <div class="card-disciplina">
+                    <img src="img/imagem-curso-1.png" alt="Nome da Disciplina">
+                    <h4>Nome da Disciplina</h4>
+                    <p>Detalhes da Disciplina</p>
+                </div>
+                <div class="card-disciplina">
+                    <img src="img/imagem-curso-1.png" alt="Nome da Disciplina">
+                    <h4>Nome da Disciplina</h4>
+                    <p>Detalhes da Disciplina</p>
+                </div>
+            </div>
+            <div id="content-notas" class="content">
+                <!-- Tabela de Notas e Frequências -->
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Disciplina</th>
+                            <th>Avaliação Parcial 1</th>
+                            <th>Avaliação Parcial 2</th>
+                            <th>Trabalho 1</th>
+                            <th>Trabalho 2</th>
+                            <th>Trabalho 3</th>
+                            <th>Trabalho 4</th>
+                            <th>Avaliação Final</th>
+                            <th>Frequência</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Notas e Frequências para as 6 disciplinas -->
+                        <!-- Disciplina 1 -->
+                        <tr>
+                            <td>Matemática Discreta</td>
+                            <td>7.5</td>
+                            <td>8.0</td>
+                            <td>9.0</td>
+                            <td>9.5</td>
+                            <td>8.5</td>
+                            <td>10.0</td>
+                            <td>9.0</td>
+                            <td>0%</td>
+                        </tr>
+                        <!-- Disciplina 2 -->
+                        <tr>
+                            <td>Cálculo I</td>
+                            <td>6.0</td>
+                            <td>7.0</td>
+                            <td>8.0</td>
+                            <td>7.5</td>
+                            <td>8.0</td>
+                            <td>7.0</td>
+                            <td>8.5</td>
+                            <td>5%</td>
+                        </tr>
+                        <!-- Disciplina 3 -->
+                        <tr>
+                            <td>Programação I</td>
+                            <td>8.0</td>
+                            <td>7.5</td>
+                            <td>9.5</td>
+                            <td>9.0</td>
+                            <td>10.0</td>
+                            <td>8.5</td>
+                            <td>8.0</td>
+                            <td>5%</td>
+                        </tr>
+                        <!-- Disciplina 4 -->
+                        <tr>
+                            <td>Física I</td>
+                            <td>5.0</td>
+                            <td>6.5</td>
+                            <td>7.0</td>
+                            <td>6.0</td>
+                            <td>6.5</td>
+                            <td>7.5</td>
+                            <td>7.0</td>
+                            <td>10%</td>
+                        </tr>
+                        <!-- Disciplina 5 -->
+                        <tr>
+                            <td>Estrutura de Dados</td>
+                            <td>9.0</td>
+                            <td>8.5</td>
+                            <td>9.0</td>
+                            <td>8.5</td>
+                            <td>9.5</td>
+                            <td>9.0</td>
+                            <td>9.5</td>
+                            <td>10%</td>
+                        </tr>
+                        <!-- Disciplina 6 -->
+                        <tr>
+                            <td>Banco de Dados</td>
+                            <td>8.5</td>
+                            <td>8.0</td>
+                            <td>9.0</td>
+                            <td>9.5</td>
+                            <td>9.5</td>
+                            <td>10.0</td>
+                            <td>9.0</td>
+                            <td>15%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="content-horarios" class="content">
+                <!-- Tabela de Horários -->
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Horário</th>
+                            <th>Segunda</th>
+                            <th>Terça</th>
+                            <th>Quarta</th>
+                            <th>Quinta</th>
+                            <th>Sexta</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Horários para as 6 disciplinas -->
+                        <tr>
+                            <td>08:00 - 09:50</td>
+                            <td>Matemática Discreta</td>
+                            <td>Cálculo I</td>
+                            <td>Programação I</td>
+                            <td>Física I</td>
+                            <td>Estrutura de Dados</td>
+                        </tr>
+                        <tr>
+                            <td>10:00 - 11:50</td>
+                            <td>Cálculo I</td>
+                            <td>Física I</td>
+                            <td>Estrutura de Dados</td>
+                            <td>Programação I</td>
+                            <td>Matemática Discreta</td>
+                        </tr>
+                        <tr>
+                            <td>14:00 - 15:50</td>
+                            <td>Estrutura de Dados</td>
+                            <td>Programação I</td>
+                            <td>Matemática Discreta</td>
+                            <td>Cálculo I</td>
+                            <td>Física I</td>
+                        </tr>
+                        <tr>
+                            <td>16:00 - 17:50</td>
+                            <td>Programação I</td>
+                            <td>Estrutura de Dados</td>
+                            <td>Física I</td>
+                            <td>Matemática Discreta</td>
+                            <td>Cálculo I</td>
+                        </tr>
+                        <tr>
+                            <td>18:00 - 19:50</td>
+                            <td>Banco de Dados</td>
+                            <td>Banco de Dados</td>
+                            <td>Banco de Dados</td>
+                            <td>Banco de Dados</td>
+                            <td>Banco de Dados</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="script/index.js"></script>
+</body>
+</html>

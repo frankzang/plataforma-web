@@ -1,0 +1,236 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Aluno {
+  id          Int         @id @default(autoincrement())
+  ra          String      @unique
+  nome        String
+  turmaId     Int
+  endereco    String
+  telefone    String
+  cpf         String
+  email       String
+  habilitacao Habilitacao @relation(fields: [idHabilitacao], references: [id])
+
+  idHabilitacao Int
+  status        Status @relation(fields: [idStatus], references: [id])
+
+  idStatus             Int
+  password             String
+  createdAt            DateTime               @updatedAt
+  Curso                Curso[]
+  matricula            Matricula[]
+  Bolsas               Bolsas?
+  LivroAlugueis        LivroAlugueis[]
+  eventos              EventosInscricao[]
+  pagamento            pagamento[]
+  AlunoDisciplina      AlunoDisciplina[]
+  FrequenciaDisciplina FrequenciaDisciplina[]
+
+  @@map("aluno")
+}
+
+model Status {
+  id        Int       @id @default(autoincrement())
+  name      String
+  createdAt DateTime  @updatedAt
+  eventos   Eventos[]
+  aluno     Aluno[]
+
+  @@map("status")
+}
+
+model Habilitacao {
+  id         Int          @id @default(autoincrement())
+  name       String
+  disciplina Disciplina[]
+  aluno      Aluno[]
+  curso      Curso[]
+
+  @@map("habilitacao")
+}
+
+model PeriodoAcademico {
+  id        Int         @id @default(autoincrement())
+  name      String      @unique
+  matricula Matricula[]
+
+  @@map("periodoacademico")
+}
+
+model Disciplina {
+  id          Int         @id @default(autoincrement())
+  name        String
+  habilitacao Habilitacao @relation(fields: [idHabilitacao], references: [id])
+
+  idHabilitacao        Int
+  Matricula            Matricula[]
+  Professor            Professor[]
+  AlunoDisciplina      AlunoDisciplina[]
+  FrequenciaDisciplina FrequenciaDisciplina[]
+
+  @@map("disciplina")
+}
+
+model AlunoDisciplina {
+  id         Int        @id @default(autoincrement())
+  aluno      Aluno      @relation(fields: [idAluno], references: [id])
+  disciplina Disciplina @relation(fields: [idDisciplina], references: [id])
+
+  idAluno      Int
+  idDisciplina Int
+
+  @@map("alunodisciplina")
+}
+
+model Curso {
+  id    Int    @id @default(autoincrement())
+  name  String
+  aluno Aluno? @relation(fields: [alunoId], references: [id])
+
+  alunoId     Int?
+  turno       String
+  price       Int
+  habilitacao Habilitacao @relation(fields: [idHabilitacao], references: [id])
+
+  idHabilitacao Int
+  bolsas        Bolsas[]
+
+  @@map("curso")
+}
+
+model Matricula {
+  id    Int   @id @default(autoincrement())
+  aluno Aluno @relation(fields: [alunoId], references: [id])
+
+  alunoId          Int
+  disciplina       Disciplina       @relation(fields: [idDisciplina], references: [id])
+  idDisciplina     Int
+  periodoAcademico PeriodoAcademico @relation(fields: [idLetivo], references: [id])
+
+  idLetivo Int
+
+  @@map("matricula")
+}
+
+model pagamento {
+  id            Int      @id @default(autoincrement())
+  pagamentoData DateTime @updatedAt
+  aluno         Aluno    @relation(fields: [idAluno], references: [id])
+
+  idAluno         Int
+  valor           Int
+  metodoPagamento String
+
+  @@map("pagamento")
+}
+
+model Bolsas {
+  id    Int    @id @default(autoincrement())
+  nome  String
+  valor Int
+  aluno Aluno  @relation(fields: [idAluno], references: [id])
+
+  idAluno Int   @unique
+  curso   Curso @relation(fields: [idCurso], references: [id])
+
+  idCurso Int
+
+  @@map("bolsas")
+}
+
+model Eventos {
+  id          Int                @id @default(autoincrement())
+  nome        String
+  description String
+  coverImg    String
+  status      Status             @relation(fields: [statusId], references: [id])
+  statusId    Int
+  dataInicial DateTime
+  dataFinal   DateTime
+  createdAt   DateTime           @updatedAt
+  updatedAt   DateTime?
+  alunos      EventosInscricao[]
+
+  @@map("eventos")
+}
+
+model EventosInscricao {
+  id     Int     @id @default(autoincrement())
+  evento Eventos @relation(fields: [idEvent], references: [id])
+
+  idEvent Int
+  aluno   Aluno @relation(fields: [ra], references: [ra])
+
+  ra String
+
+  @@map("eventoinscricoes")
+}
+
+model Livro {
+  id Int @id @default(autoincrement())
+
+  nome          String
+  editora       String
+  autor         String
+  quantidade    String
+  disponivel    Boolean
+  livroAlugueis LivroAlugueis[]
+
+  @@map("livros")
+}
+
+model LivroAlugueis {
+  id    Int   @id @default(autoincrement())
+  livro Livro @relation(fields: [idLivro], references: [id])
+
+  idLivro Int
+  aluno   Aluno @relation(fields: [idAluno], references: [id])
+
+  idAluno   Int
+  devolvido Boolean
+  createdAt DateTime @updatedAt
+
+  @@map("livrosalugueis")
+}
+
+model Professor {
+  id        Int      @id @default(autoincrement())
+  nome      String
+  cpf       String
+  email     String
+  endereco  String
+  telefone  String
+  createdAt DateTime @updatedAt
+
+  disciplina Disciplina @relation(fields: [idDisciplina], references: [id])
+
+  idDisciplina Int
+
+  @@map("professor")
+}
+
+model FrequenciaDisciplina {
+  id         Int        @id @default(autoincrement())
+  aluno      Aluno      @relation(fields: [idAluno], references: [id])
+  disciplina Disciplina @relation(fields: [idDisciplina], references: [id])
+
+  idAluno       Int
+  idDisciplina  Int
+  presenca      Boolean
+  createdAt     DateTime @updatedAt
+  data          DateTime @default(now())
+  justificativa String?
+
+  @@map("frequenciadisciplina")
+}
