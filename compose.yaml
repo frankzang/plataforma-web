@@ -2,7 +2,7 @@ services:
   db:
     image: bitnami/postgresql
     ports:
-      - "5434:5432"
+      - '5434:5432'
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 123
@@ -18,7 +18,20 @@ services:
   db-2:
     image: bitnami/postgresql
     ports:
-      - "5435:5432"
+      - '5435:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      POSTGRESQL_MASTER_HOST: db
+      POSTGRESQL_REPLICATION_MODE: slave
+      POSTGRESQL_PGAUDIT_LOG: READ
+      POSTGRESQL_REPLICATION_USER: repl_user
+      POSTGRESQL_REPLICATION_PASSWORD: repl_password
+
+  db-3:
+    image: bitnami/postgresql
+    ports:
+      - '5436:5432'
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 123
@@ -36,7 +49,6 @@ services:
       - PORT=3000
       - CLIENT_URL=http://localhost:8080
       - SECREAT_KEY=123
-      - DATABASE_URL=postgres://docker:docker@education-plataform-pg:5432/educationplataform
     volumes:
       - ./api:/api
     command: sh -c "cd /api && npm install && npm run dev"
@@ -49,7 +61,6 @@ services:
       - PORT=3000
       - CLIENT_URL=http://localhost:8080
       - SECREAT_KEY=123
-      - DATABASE_URL=postgres://docker:docker@education-plataform-pg:5432/educationplataform
     volumes:
       - ./api:/api
     command: sh -c "cd /api && npm install && npm run dev"

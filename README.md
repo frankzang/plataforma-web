@@ -2,20 +2,22 @@
 
 ### .env file
 
-Create a .env file in the root of the project with the following content:
+Create a .env file in the root of the ./api directory with the following content:
 
 ```bash
-PORT=3000
+DATABASE_URL="postgres://postgres:123@db:5432/educationplataform"
+DATABASE_REPLICA_URL_1="postgres://postgres:123@db-2:5432/educationplataform"
+DATABASE_REPLICA_URL_2="postgres://postgres:123@db-3:5432/educationplataform"
 ```
 
 ### build docker image
 
 ```bash
-docker build -t plataforma-web .
+docker-compose build
 ```
 
 ### run docker image
 
 ```bash
-docker run -dp 127.0.0.1:3000:3000 plataforma-web
+docker-compose up
 ```
