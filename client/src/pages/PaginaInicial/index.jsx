@@ -1,14 +1,14 @@
 import './styles.css';
 
-export default function PaginaInicial() {
-  let currentSlide = 0;
+let currentSlide = 0;
 
+export default function PaginaInicial() {
   function switchSlide(slideIndex) {
     const slides = document.querySelectorAll('.slide');
     const dots = document.querySelectorAll('.dot');
     currentSlide = slideIndex;
     const slideWidth = slides[0].clientWidth || 0;
-    const a = document.querySelector('.slide-container') as any;
+    const a = document.querySelector('.slide-container');
     if (a != null) {
       a.style.transform = `translateX(-${slideWidth * currentSlide}px)`;
       dots.forEach((dot) => dot.classList.remove('active-dot'));

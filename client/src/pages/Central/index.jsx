@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import './styles.css';
+import { logoutUser } from '../../loaders/user';
 
 export default function Central() {
   useEffect(() => {
@@ -7,7 +8,7 @@ export default function Central() {
   }, []);
 
   function changeContent(contentId) {
-    document.querySelectorAll('.content').forEach(function (content: any) {
+    document.querySelectorAll('.content').forEach(function (content) {
       content.style.display = 'none';
     });
 
@@ -16,8 +17,8 @@ export default function Central() {
       .forEach(function (button) {
         button.classList.remove('active');
       });
-    const a = document.getElementById('btn-' + contentId) as any;
-    const b = document.getElementById('content-' + contentId) as any;
+    const a = document.getElementById('btn-' + contentId);
+    const b = document.getElementById('content-' + contentId);
 
     a.classList.add('active');
     b.style.display = 'block';
@@ -29,6 +30,18 @@ export default function Central() {
         <img src="assets/central-aluno/img/imagem perfil.jpg" alt="Perfil" />
         <h2>Eric Cartman</h2>
         <h3>Sistema de informação</h3>
+        <button
+          onClick={() => {
+            try {
+              logoutUser();
+              window.location.reload();
+            } catch (error) {
+              console.log({ error });
+            }
+          }}
+        >
+          Sair
+        </button>
         <nav className="menu">
           <ul>
             <li>

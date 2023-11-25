@@ -5,7 +5,7 @@ import { authenticate } from '../use-case/authenticate.js';
  * @param {import('express').Request} req
  * @param {import('express').Response} res
  */
-export async function session(req, res) {
+export async function createSession(req, res) {
   const { ra, password } = req.body;
 
   const student = await authenticate(ra, password);
@@ -22,4 +22,14 @@ export async function session(req, res) {
   });
 
   return res.status(200).json(student);
+}
+
+/**
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
+export async function deleteSession(_req, res) {
+  res.clearCookie('token');
+
+  return res.status(200).json({ message: 'Logout success' });
 }

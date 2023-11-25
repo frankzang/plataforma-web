@@ -1,6 +1,5 @@
 import { Router } from 'express';
-import { session } from './controller/session.js';
-import { prisma } from '../prisma/bd/prisma.js';
+import { createSession, deleteSession } from './controller/session.js';
 import { getUser } from './controller/user.js';
 import { verifyUser } from './middleware/verify-user.js';
 import { getDisciplines } from './controller/disciplines.js';
@@ -10,10 +9,13 @@ import { getFrequency } from './controller/frequency.js';
 
 export const router = Router();
 
-router.post('/session', session);
+// Session
+router.post('/session', createSession);
+
+router.delete('/session', deleteSession);
 
 // User
-router.get('/user', /* verifyUser, */ getUser);
+router.get('/user', verifyUser, getUser);
 
 // Courses
 router.get('/courses', verifyUser, getCourses);
@@ -22,7 +24,7 @@ router.get('/courses', verifyUser, getCourses);
 router.get('/disciplines', verifyUser, getDisciplines);
 
 // Events
-router.get('/event', /*verifyUser, */ getAllEvents);
+router.get('/event', verifyUser, getAllEvents);
 
 router.post('/event', verifyUser, subscribeEvent);
 
