@@ -31,9 +31,9 @@ export default function Central() {
         <h2>Eric Cartman</h2>
         <h3>Sistema de informação</h3>
         <button
-          onClick={() => {
+          onClick={async () => {
             try {
-              logoutUser();
+              await logoutUser();
               window.location.reload();
             } catch (error) {
               console.log({ error });
