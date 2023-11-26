@@ -2,6 +2,7 @@ import useSWR from 'swr';
 import { fetchApi } from '../../data/fetchApi';
 import {
   Box,
+  Container,
   Heading,
   Table,
   Tbody,
@@ -10,19 +11,51 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react';
+import { groupBy } from 'lodash';
+
+const gradeOrder = [
+  'PROVA1',
+  'PROVA2',
+  'PROVA3',
+  'TRABALHO1',
+  'TRABALHO2',
+  'TRABALHO3',
+  'TRABALHO4',
+];
+
+const buildGrades = (data) => {
+  const grouped = groupBy(data, 'disciplina.name');
+
+  return Object.entries(grouped).map(([key, value]) => {
+    const res = value
+      .sort((a, b) => {
+        return gradeOrder.indexOf(a.grade) - gradeOrder.indexOf(b.grade);
+      })
+      .concat(Array(gradeOrder.length - value.length))
+      .fill(null, value.length, gradeOrder.length);
+
+    return [key, ...res.map((item) => item?.nota ?? '-')];
+  });
+};
 
 export default function Grades() {
-  const { data } = useSWR('/grades', (url) => fetchApi(url));
-
-  console.log({ data });
+  const { data } = useSWR('/user/grades', (url) => fetchApi(url));
+  const grades = buildGrades(data);
 
   return (
-    <Box padding="16px">
+    <Box>
       <Heading as="h1" size="lg" mb="1rem">
         Notas
       </Heading>
-      <Box overflow="auto" width="100vw">
-        <Table variant="striped" colorScheme="purple" size="sm" width="100%">
+      <Box overflow="auto">
+        <Table
+          variant="striped"
+          colorScheme="purple"
+          size="sm"
+          width="100%"
+          maxW="1200px"
+          marginRight="16px"
+        >
           <Thead>
             <Tr>
               <Th textAlign="center">Disciplina</Th>
@@ -36,66 +69,15 @@ export default function Grades() {
             </Tr>
           </Thead>
           <Tbody>
-            <Tr>
-              <Td>Matemática Discreta</Td>
-              <Td>7.5</Td>
-              <Td>8.0</Td>
-              <Td>9.0</Td>
-              <Td>9.5</Td>
-              <Td>8.5</Td>
-              <Td>10.0</Td>
-              <Td>9.0</Td>
-            </Tr>
-            <Tr>
-              <Td>Cálculo I</Td>
-              <Td>6.0</Td>
-              <Td>7.0</Td>
-              <Td>8.0</Td>
-              <Td>7.5</Td>
-              <Td>8.0</Td>
-              <Td>7.0</Td>
-              <Td>8.5</Td>
-            </Tr>
-            <Tr>
-              <Td>Programação I</Td>
-              <Td>8.0</Td>
-              <Td>7.5</Td>
-              <Td>9.5</Td>
-              <Td>9.0</Td>
-              <Td>10.0</Td>
-              <Td>8.5</Td>
-              <Td>8.0</Td>
-            </Tr>
-            <Tr>
-              <Td>Física I</Td>
-              <Td>5.0</Td>
-              <Td>6.5</Td>
-              <Td>7.0</Td>
-              <Td>6.0</Td>
-              <Td>6.5</Td>
-              <Td>7.5</Td>
-              <Td>7.0</Td>
-            </Tr>
-            <Tr>
-              <Td>EsTrutura de Dados</Td>
-              <Td>9.0</Td>
-              <Td>8.5</Td>
-              <Td>9.0</Td>
-              <Td>8.5</Td>
-              <Td>9.5</Td>
-              <Td>9.0</Td>
-              <Td>9.5</Td>
-            </Tr>
-            <Tr>
-              <Td>Banco de Dados</Td>
-              <Td>8.5</Td>
-              <Td>8.0</Td>
-              <Td>9.0</Td>
-              <Td>9.5</Td>
-              <Td>9.5</Td>
-              <Td>10.0</Td>
-              <Td>9.0</Td>
-            </Tr>
+            {grades.map((grades, index) => (
+              <Tr key={index}>
+                {grades.map((grade, index) => (
+                  <Td key={index} textAlign="center">
+                    {grade}
+                  </Td>
+                ))}
+              </Tr>
+            ))}
           </Tbody>
         </Table>
       </Box>

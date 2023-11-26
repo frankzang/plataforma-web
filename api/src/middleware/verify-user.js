@@ -20,6 +20,8 @@ export async function verifyUser(req, res, next) {
       },
     });
 
+    console.log({ userFromDb });
+
     res.locals.auth = user;
     res.locals.user = userFromDb;
 

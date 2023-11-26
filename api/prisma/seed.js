@@ -164,6 +164,65 @@ async function main() {
       },
     ],
   });
+
+  await prisma.nota.createMany({
+    data: [
+      {
+        nota: 10,
+        idAluno: aluno.id,
+        idDisciplina: disciplinas[0].id,
+        tipo: 'PROVA1',
+      },
+      {
+        nota: 10,
+        idAluno: aluno.id,
+        idDisciplina: disciplinas[0].id,
+        tipo: 'PROVA2',
+      },
+      {
+        nota: 10,
+        idAluno: aluno.id,
+        idDisciplina: disciplinas[0].id,
+        tipo: 'TRABALHO1',
+      },
+      {
+        nota: 10,
+        idAluno: aluno.id,
+        idDisciplina: disciplinas[1].id,
+        tipo: 'PROVA1',
+      },
+      {
+        nota: 10,
+        idAluno: aluno.id,
+        idDisciplina: disciplinas[1].id,
+        tipo: 'PROVA2',
+      },
+      {
+        nota: 10,
+        idAluno: aluno.id,
+        idDisciplina: disciplinas[1].id,
+        tipo: 'TRABALHO1',
+      },
+      {
+        nota: 10,
+        idAluno: aluno.id,
+        idDisciplina: disciplinas[2].id,
+        tipo: 'PROVA1',
+      },
+      {
+        nota: 10,
+        idAluno: aluno.id,
+        idDisciplina: disciplinas[2].id,
+        tipo: 'PROVA2',
+      },
+      {
+        nota: 10,
+        idAluno: aluno.id,
+        idDisciplina: disciplinas[2].id,
+        tipo: 'TRABALHO1',
+      },
+    ],
+  });
 }
 
 main();

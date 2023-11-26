@@ -36,6 +36,7 @@ model Aluno {
   pagamento            pagamento[]
   AlunoDisciplina      AlunoDisciplina[]
   FrequenciaDisciplina FrequenciaDisciplina[]
+  Nota                 Nota[]
 
   @@map("aluno")
 }
@@ -78,6 +79,7 @@ model Disciplina {
   Professor            Professor[]
   AlunoDisciplina      AlunoDisciplina[]
   FrequenciaDisciplina FrequenciaDisciplina[]
+  Nota                 Nota[]
 
   @@map("disciplina")
 }
@@ -233,4 +235,27 @@ model FrequenciaDisciplina {
   justificativa String?
 
   @@map("frequenciadisciplina")
+}
+
+enum TipoNota {
+  PROVA1
+  PROVA2
+  TRABALHO1
+  TRABALHO2
+  TRABALHO3
+  TRABALHO4
+  PROVA3
+}
+
+model Nota {
+  id         Int        @id @default(autoincrement())
+  aluno      Aluno      @relation(fields: [idAluno], references: [id])
+  disciplina Disciplina @relation(fields: [idDisciplina], references: [id])
+
+  idAluno      Int
+  idDisciplina Int
+  nota         Int
+  tipo         TipoNota
+
+  @@map("nota")
 }

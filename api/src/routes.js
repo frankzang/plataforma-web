@@ -6,6 +6,7 @@ import { getDisciplines } from './controller/disciplines.js';
 import { getCourses } from './controller/courses.js';
 import { getAllEvents, subscribeEvent } from './controller/events.js';
 import { getFrequency } from './controller/frequency.js';
+import { getGrades } from './controller/grades.js';
 
 export const router = Router();
 
@@ -18,6 +19,8 @@ router.delete('/session', deleteSession);
 router.get('/user', verifyUser, getUser);
 
 router.get('user/events', verifyUser, getAllEvents);
+
+router.get('/user/grades', verifyUser, getGrades);
 
 // Courses
 router.get('/courses', verifyUser, getCourses);

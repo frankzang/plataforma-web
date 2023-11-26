@@ -78,24 +78,30 @@ function Menu() {
     </>
   );
 }
+
 export const Main = ({ children }) => {
   return (
     <Box>
-      <Flex
-        gap="16px"
-        alignItems="center"
-        justifyContent="space-between"
-        borderBottom="1px solid #00000010"
-        padding="16px"
-      >
-        <Image
-          src="assets/central-aluno/img/logo-unifap.png"
-          alt="Logo UNIFAP"
-          w="150px"
-        />
-        <Menu />
+      <Box borderBottom="1px solid #00000010">
+        <Flex
+          gap="16px"
+          alignItems="center"
+          justifyContent="space-between"
+          padding="16px"
+          maxW="1200px"
+          margin="auto"
+        >
+          <Image
+            src="assets/central-aluno/img/logo-unifap.png"
+            alt="Logo UNIFAP"
+            w="150px"
+          />
+          <Menu />
+        </Flex>
+      </Box>
+      <Flex margin="auto" maxW="1200px" padding="16px">
+        {children}
       </Flex>
-      <Flex>{children}</Flex>
     </Box>
   );
 };
