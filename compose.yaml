@@ -47,6 +47,7 @@ services:
     build: ./api
     ports:
       - '3000'
+      - '5555:5555'
     environment:
       - PORT=3000
       - CLIENT_URL=http://localhost:8000
@@ -83,6 +84,5 @@ services:
     volumes:
       - ./client:/client
     command: sh -c "cd /client && npm install && npm run dev"
-
 volumes:
   postgres-data:

@@ -1,5 +1,17 @@
 import { prisma } from './bd/prisma.js';
 
+function generateRandomString() {
+  var possibleCharacters =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var result = '';
+  for (var i = 0; i < 8; i++) {
+    var randomIndex = Math.floor(Math.random() * possibleCharacters.length);
+    result += possibleCharacters[randomIndex];
+  }
+  return result;
+}
+
+console.log(generateRandomString());
 async function main() {
   await prisma.status.createMany({
     data: [
@@ -11,8 +23,8 @@ async function main() {
     ],
   });
 
-  await prisma.habilitacao.createMany({
-    data: [{ name: 'Graduação' }, { name: 'Especialização' }],
+  const habilitacao = await prisma.habilitacao.create({
+    data: { name: 'Graduação' },
   });
 
   await prisma.curso.createMany({
@@ -37,38 +49,121 @@ async function main() {
     },
   });
 
-  await prisma.aluno.createMany({
+  const aluno = await prisma.aluno.create({
+    data: {
+      nome: 'izael gomes',
+      cpf: '9980989080909',
+      email: 'fulano@gmail.com',
+      endereco: 'rua ola gomes',
+      idHabilitacao: 1,
+      idStatus: 1,
+      password: '123456',
+      ra: generateRandomString(),
+      telefone: '8887778999',
+      turmaId: 2,
+    },
+  });
+
+  const disciplinas = await Promise.all(
+    [
+      {
+        name: 'Projeto Integrado',
+        idHabilitacao: habilitacao.id,
+      },
+      {
+        name: 'Banco de Dados',
+        idHabilitacao: habilitacao.id,
+      },
+      {
+        name: 'Segurança da Informação',
+        idHabilitacao: habilitacao.id,
+      },
+    ].map((disciplina) => prisma.disciplina.create({ data: disciplina }))
+  );
+
+  await prisma.alunoDisciplina.create({
+    data: {
+      idAluno: aluno.id,
+      idDisciplina: disciplinas[0].id,
+    },
+  });
+
+  await prisma.eventos.createMany({
     data: [
-      {   
-        nome: 'izael gomes',
-        cpf: '9980989080909',
-        email: 'fulano@gmail.com',
-        endereco: 'rua ola gomes',
-        idHabilitacao: 1,
-        idStatus: 1,
-        password: '123456',
-        ra: '12252663218',
-        telefone: '8887778999',
-        turmaId:2
-        
+      {
+        nome: 'Congresso de sistemas de informação',
+        dataInicial: new Date(),
+        dataFinal: new Date('2024-05-10'),
+        description:
+          'O Congresso de Sistemas de Informação é um evento anual que reúne acadêmicos, profissionais da área de tecnologia e estudantes do curso de Sistemas de Informação em um ambiente de aprendizado, colaboração e inovação. Este congresso tem como objetivo principal promover a troca de conhecimento e experiências, bem como discutir as tendências e desafios em constante evolução no campo da tecnologia da informação. Data e Local: O evento acontecerá nos dias 15 a 17 de novembro no Centro de Convenções da cidade de [Nome da Cidade], proporcionando um ambiente adequado para acomodar os participantes e garantir a realização de palestras, workshops e atividades interativas.',
+        statusId: 4,
+        coverImg: 'https://placehold.co/300x250',
+      },
+      {
+        nome: 'Congresso de sistemas de informação',
+        dataInicial: new Date(),
+        dataFinal: new Date('2024-05-10'),
+        description:
+          'O Congresso de Sistemas de Informação é um evento anual que reúne acadêmicos, profissionais da área de tecnologia e estudantes do curso de Sistemas de Informação em um ambiente de aprendizado, colaboração e inovação. Este congresso tem como objetivo principal promover a troca de conhecimento e experiências, bem como discutir as tendências e desafios em constante evolução no campo da tecnologia da informação. Data e Local: O evento acontecerá nos dias 15 a 17 de novembro no Centro de Convenções da cidade de [Nome da Cidade], proporcionando um ambiente adequado para acomodar os participantes e garantir a realização de palestras, workshops e atividades interativas.',
+        statusId: 4,
+        coverImg: 'https://placehold.co/300x250',
+      },
+      {
+        nome: 'Congresso de sistemas de informação',
+        dataInicial: new Date(),
+        dataFinal: new Date('2024-05-10'),
+        description:
+          'O Congresso de Sistemas de Informação é um evento anual que reúne acadêmicos, profissionais da área de tecnologia e estudantes do curso de Sistemas de Informação em um ambiente de aprendizado, colaboração e inovação. Este congresso tem como objetivo principal promover a troca de conhecimento e experiências, bem como discutir as tendências e desafios em constante evolução no campo da tecnologia da informação. Data e Local: O evento acontecerá nos dias 15 a 17 de novembro no Centro de Convenções da cidade de [Nome da Cidade], proporcionando um ambiente adequado para acomodar os participantes e garantir a realização de palestras, workshops e atividades interativas.',
+        statusId: 4,
+        coverImg: 'https://placehold.co/300x250',
+      },
+      {
+        nome: 'Congresso de sistemas de informação',
+        dataInicial: new Date(),
+        dataFinal: new Date('2024-05-10'),
+        description:
+          'O Congresso de Sistemas de Informação é um evento anual que reúne acadêmicos, profissionais da área de tecnologia e estudantes do curso de Sistemas de Informação em um ambiente de aprendizado, colaboração e inovação. Este congresso tem como objetivo principal promover a troca de conhecimento e experiências, bem como discutir as tendências e desafios em constante evolução no campo da tecnologia da informação. Data e Local: O evento acontecerá nos dias 15 a 17 de novembro no Centro de Convenções da cidade de [Nome da Cidade], proporcionando um ambiente adequado para acomodar os participantes e garantir a realização de palestras, workshops e atividades interativas.',
+        statusId: 4,
+        coverImg: 'https://placehold.co/300x250',
+      },
+      {
+        nome: 'Congresso de sistemas de informação',
+        dataInicial: new Date(),
+        dataFinal: new Date('2024-05-10'),
+        description:
+          'O Congresso de Sistemas de Informação é um evento anual que reúne acadêmicos, profissionais da área de tecnologia e estudantes do curso de Sistemas de Informação em um ambiente de aprendizado, colaboração e inovação. Este congresso tem como objetivo principal promover a troca de conhecimento e experiências, bem como discutir as tendências e desafios em constante evolução no campo da tecnologia da informação. Data e Local: O evento acontecerá nos dias 15 a 17 de novembro no Centro de Convenções da cidade de [Nome da Cidade], proporcionando um ambiente adequado para acomodar os participantes e garantir a realização de palestras, workshops e atividades interativas.',
+        statusId: 4,
+        coverImg: 'https://placehold.co/300x250',
+      },
+      {
+        nome: 'Congresso de sistemas de informação',
+        dataInicial: new Date(),
+        dataFinal: new Date('2024-05-10'),
+        description:
+          'O Congresso de Sistemas de Informação é um evento anual que reúne acadêmicos, profissionais da área de tecnologia e estudantes do curso de Sistemas de Informação em um ambiente de aprendizado, colaboração e inovação. Este congresso tem como objetivo principal promover a troca de conhecimento e experiências, bem como discutir as tendências e desafios em constante evolução no campo da tecnologia da informação. Data e Local: O evento acontecerá nos dias 15 a 17 de novembro no Centro de Convenções da cidade de [Nome da Cidade], proporcionando um ambiente adequado para acomodar os participantes e garantir a realização de palestras, workshops e atividades interativas.',
+        statusId: 4,
+        coverImg: 'https://placehold.co/300x250',
+      },
+      {
+        nome: 'Congresso de sistemas de informação',
+        dataInicial: new Date(),
+        dataFinal: new Date('2024-05-10'),
+        description:
+          'O Congresso de Sistemas de Informação é um evento anual que reúne acadêmicos, profissionais da área de tecnologia e estudantes do curso de Sistemas de Informação em um ambiente de aprendizado, colaboração e inovação. Este congresso tem como objetivo principal promover a troca de conhecimento e experiências, bem como discutir as tendências e desafios em constante evolução no campo da tecnologia da informação. Data e Local: O evento acontecerá nos dias 15 a 17 de novembro no Centro de Convenções da cidade de [Nome da Cidade], proporcionando um ambiente adequado para acomodar os participantes e garantir a realização de palestras, workshops e atividades interativas.',
+        statusId: 4,
+        coverImg: 'https://placehold.co/300x250',
+      },
+      {
+        nome: 'Congresso de sistemas de informação',
+        dataInicial: new Date(),
+        dataFinal: new Date('2024-05-10'),
+        description:
+          'O Congresso de Sistemas de Informação é um evento anual que reúne acadêmicos, profissionais da área de tecnologia e estudantes do curso de Sistemas de Informação em um ambiente de aprendizado, colaboração e inovação. Este congresso tem como objetivo principal promover a troca de conhecimento e experiências, bem como discutir as tendências e desafios em constante evolução no campo da tecnologia da informação. Data e Local: O evento acontecerá nos dias 15 a 17 de novembro no Centro de Convenções da cidade de [Nome da Cidade], proporcionando um ambiente adequado para acomodar os participantes e garantir a realização de palestras, workshops e atividades interativas.',
+        statusId: 4,
+        coverImg: 'https://placehold.co/300x250',
       },
     ],
   });
-
-  await prisma.bolsas.createMany({
-    data: [{ nome: 'Graduação', valor: 10, idAluno: 1, idCurso: 1 }],
-  });
-
-  await prisma.eventos.create({
-    data:{
-      nome:'Congresso de sistemas de informação', 
-      dataInicial:new Date(),
-      dataFinal: new Date('2024-05-10'), 
-      description:'O Congresso de Sistemas de Informação é um evento anual que reúne acadêmicos, profissionais da área de tecnologia e estudantes do curso de Sistemas de Informação em um ambiente de aprendizado, colaboração e inovação. Este congresso tem como objetivo principal promover a troca de conhecimento e experiências, bem como discutir as tendências e desafios em constante evolução no campo da tecnologia da informação. Data e Local: O evento acontecerá nos dias 15 a 17 de novembro no Centro de Convenções da cidade de [Nome da Cidade], proporcionando um ambiente adequado para acomodar os participantes e garantir a realização de palestras, workshops e atividades interativas.',
-      statusId:4, 
-      coverImg:'https://www.undb.edu.br/hubfs/sistema%20de%20informa%C3%A7%C3%A3o%20undb.jpg'
-    }
-  })
 }
 
 main();

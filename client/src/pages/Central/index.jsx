@@ -1,8 +1,12 @@
 import { useEffect } from 'react';
 import './styles.css';
 import { logoutUser } from '../../loaders/user';
+import useSWR from 'swr';
+import { fetchApi } from '../../data/fetchApi';
 
 export default function Central() {
+  const { data } = useSWR('/disciplines', (url) => fetchApi(url));
+
   useEffect(() => {
     changeContent('disciplinas');
   }, []);
@@ -21,7 +25,7 @@ export default function Central() {
     const b = document.getElementById('content-' + contentId);
 
     a.classList.add('active');
-    b.style.display = 'block';
+    b.style.display = 'flex';
   }
 
   return (
@@ -34,7 +38,7 @@ export default function Central() {
           onClick={async () => {
             try {
               await logoutUser();
-             window.location.reload();
+              window.location.reload();
             } catch (error) {
               console.log({ error });
             }
@@ -87,55 +91,13 @@ export default function Central() {
             </button>
           </div>
         </header>
-        <div id="content-disciplinas" className="content active">
-          <div className="card-disciplina">
-            <img
-              src="assets/central-aluno/img/imagem-curso-1.png"
-              alt="Nome da Disciplina"
-            />
-            <h4>Nome da Disciplina</h4>
-            <p>Detalhes da Disciplina</p>
-          </div>
-          <div className="card-disciplina">
-            <img
-              src="assets/central-aluno/img/imagem-curso-1.png"
-              alt="Nome da Disciplina"
-            />
-            <h4>Nome da Disciplina</h4>
-            <p>Detalhes da Disciplina</p>
-          </div>
-          <div className="card-disciplina">
-            <img
-              src="assets/central-aluno/img/imagem-curso-1.png"
-              alt="Nome da Disciplina"
-            />
-            <h4>Nome da Disciplina</h4>
-            <p>Detalhes da Disciplina</p>
-          </div>
-          <div className="card-disciplina">
-            <img
-              src="assets/central-aluno/img/imagem-curso-1.png"
-              alt="Nome da Disciplina"
-            />
-            <h4>Nome da Disciplina</h4>
-            <p>Detalhes da Disciplina</p>
-          </div>
-          <div className="card-disciplina">
-            <img
-              src="assets/central-aluno/img/imagem-curso-1.png"
-              alt="Nome da Disciplina"
-            />
-            <h4>Nome da Disciplina</h4>
-            <p>Detalhes da Disciplina</p>
-          </div>
-          <div className="card-disciplina">
-            <img
-              src="assets/central-aluno/img/imagem-curso-1.png"
-              alt="Nome da Disciplina"
-            />
-            <h4>Nome da Disciplina</h4>
-            <p>Detalhes da Disciplina</p>
-          </div>
+        <div id="content-disciplinas" className="content active disciplines">
+          {data?.map((discipline) => (
+            <div key={discipline.id} className="card-disciplina">
+              <img src="assets/images/course.svg" alt="Nome da Disciplina" />
+              <h4>{discipline.name}</h4>
+            </div>
+          ))}
         </div>
         <div id="content-notas" className="content">
           <table className="table">
