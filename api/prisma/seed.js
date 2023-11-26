@@ -1,5 +1,15 @@
 import { prisma } from './bd/prisma.js';
-import { startOfMonth, sub, add, isSunday, isSaturday, getDay } from 'date-fns';
+import {
+  startOfMonth,
+  sub,
+  add,
+  isSunday,
+  isSaturday,
+  getDay,
+  isAfter,
+  startOfToday,
+  startOfQuarter,
+} from 'date-fns';
 
 function generateRandomString() {
   var possibleCharacters =
@@ -224,22 +234,14 @@ async function main() {
     ],
   });
   const pastMonth = sub(startOfMonth(new Date()), {
-    months: 1,
+    months: 6,
   });
-  const dates = [...Array(30).keys()].map((_, index) => {
+  const dates = [...Array(30 * 6).keys()].map((_, index) => {
     const d = add(pastMonth, { days: index });
-    if (isSaturday(d) || isSunday(d)) return null;
+    if (isSaturday(d) || isSunday(d) || isAfter(d, startOfToday)) return null;
 
     return add(pastMonth, { days: index });
   });
-
-  await prisma.frequenciaDisciplina.deleteMany({
-    where: {
-      idAluno: 1,
-    },
-  });
-
-  console.log({ dates });
 
   await Promise.all(
     dates.filter(Boolean).map(async (date) => {

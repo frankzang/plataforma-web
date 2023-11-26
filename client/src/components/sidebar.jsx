@@ -51,6 +51,11 @@ function Menu() {
                 </Link>
               </ListItem>
               <ListItem>
+                <Link as={RRDLink} to="/frequency">
+                  Frequencia
+                </Link>
+              </ListItem>
+              <ListItem>
                 <Link as={RRDLink} to="/eventos">
                   Eventos
                 </Link>

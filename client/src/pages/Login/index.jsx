@@ -39,7 +39,7 @@ const Login = () => {
         <Grid maxW="300px" w="100%">
           <Formik
             initialValues={{
-              code: 'i4ASrzBe',
+              code: '9GgzbSSK',
               password: '123456',
             }}
             validate={(values) => {

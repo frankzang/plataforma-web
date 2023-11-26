@@ -11,6 +11,7 @@ import { SWRConfig } from 'swr';
 import { Main } from './components/sidebar.jsx';
 import { ChakraProvider } from '@chakra-ui/react';
 import Grades from './pages/Notas/index.jsx';
+import Frequency from './pages/Frequencia/index.jsx';
 
 function App() {
   return (
@@ -40,11 +41,28 @@ function App() {
                     }
                   />
                 </Route>
+                <Route path="/frequency" element={<ProtectedRoute />}>
+                  <Route
+                    path="/frequency"
+                    element={
+                      <Main>
+                        <Frequency />
+                      </Main>
+                    }
+                  />
+                </Route>
                 <Route path="/eventos" element={<ProtectedRoute />}>
                   <Route path="/eventos" element={<Eventos />} />
                 </Route>
                 <Route path="/eventInfor/:id" element={<ProtectedRoute />}>
-                  <Route path="/eventInfor/:id" element={ <Main><EventosInfor /></Main>} />
+                  <Route
+                    path="/eventInfor/:id"
+                    element={
+                      <Main>
+                        <EventosInfor />
+                      </Main>
+                    }
+                  />
                 </Route>
                 <Route path="/login" element={<Login />} />
               </Routes>
