@@ -17,6 +17,8 @@ router.delete('/session', deleteSession);
 // User
 router.get('/user', verifyUser, getUser);
 
+router.get('user/events', verifyUser, getAllEvents);
+
 // Courses
 router.get('/courses', verifyUser, getCourses);
 
@@ -24,9 +26,9 @@ router.get('/courses', verifyUser, getCourses);
 router.get('/disciplines', verifyUser, getDisciplines);
 
 // Events
-router.get('/event', verifyUser, getAllEvents);
+router.get('/events', verifyUser, getAllEvents);
 
-router.post('/event', verifyUser, subscribeEvent);
+router.post('/events', verifyUser, subscribeEvent);
 
 // Frequencies
 router.get('/frequency', verifyUser, getFrequency);
