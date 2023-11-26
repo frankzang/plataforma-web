@@ -1,4 +1,5 @@
 import { prisma } from './bd/prisma.js';
+import { startOfMonth, sub, add, isSunday, isSaturday, getDay } from 'date-fns';
 
 function generateRandomString() {
   var possibleCharacters =
@@ -11,7 +12,6 @@ function generateRandomString() {
   return result;
 }
 
-console.log(generateRandomString());
 async function main() {
   await prisma.status.createMany({
     data: [
@@ -223,6 +223,38 @@ async function main() {
       },
     ],
   });
+  const pastMonth = sub(startOfMonth(new Date()), {
+    months: 1,
+  });
+  const dates = [...Array(30).keys()].map((_, index) => {
+    const d = add(pastMonth, { days: index });
+    if (isSaturday(d) || isSunday(d)) return null;
+
+    return add(pastMonth, { days: index });
+  });
+
+  await prisma.frequenciaDisciplina.deleteMany({
+    where: {
+      idAluno: 1,
+    },
+  });
+
+  console.log({ dates });
+
+  await Promise.all(
+    dates.filter(Boolean).map(async (date) => {
+      const randomDay = Math.floor(Math.random() * 8);
+
+      return prisma.frequenciaDisciplina.create({
+        data: {
+          idAluno: aluno.id,
+          idDisciplina: disciplinas[0].id,
+          data: date,
+          presenca: getDay(date) !== randomDay,
+        },
+      });
+    })
+  );
 }
 
 main();
