@@ -1,14 +1,16 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import PaginaInicial from '../src/pages/PaginaIniciaL';
+import PaginaInicial from '../src/pages/PaginaInicial/index.jsx';
 import Eventos from '../src/pages/Eventos';
 import Central from './pages/Central';
 import Login from './pages/Login';
 import { AuthProvider } from './context/auth.jsx';
 import { ProtectedRoute } from './protectedRoutes.jsx';
 import { Loading } from './loading.jsx';
+import {SWRConfig} from "swr"
 
 function App() {
   return (
+    <SWRConfig>
     <AuthProvider>
       <Loading>
         <BrowserRouter>
@@ -27,6 +29,7 @@ function App() {
         </BrowserRouter>
       </Loading>
     </AuthProvider>
+    </SWRConfig>
   );
 }
 

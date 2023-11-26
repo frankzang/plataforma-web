@@ -1,6 +1,13 @@
+import useSWR from 'swr';
 import './styles.css';
+import { fetchApi } from '../../data/fetchApi';
 
 export default function Eventos() {
+
+  const {data,isLoading} = useSWR('/events', (url) => fetchApi(url))
+    console.log({data});
+
+
   return (
     <div className="container">
       <div className="sidebar">
@@ -38,70 +45,19 @@ export default function Eventos() {
           </ul>
         </header>
         <div className="events-grid">
-          <div className="event-card">
+
+          {data?.map(event => {
+            return(
+            <div className="event-card" key={event.id}>
             <img src="assets/eventos/img/banner-1.png" alt="Evento 1" />
-            <h3>Evento 1</h3>
-            <p>Descrição do Evento 1.</p>
+            <h3>{event.nome}</h3>
+            <p>{event.description}</p>
             <a href="#" className="event-button">
               Acessar
             </a>
           </div>
-          <div className="event-card">
-            <img src="assets/eventos/img/banner-1.png" alt="Evento 2" />
-            <h3>Evento 2</h3>
-            <p>Descrição do Evento 2.</p>
-            <a href="#" className="event-button">
-              Acessar
-            </a>
-          </div>
-          <div className="event-card">
-            <img src="assets/eventos/img/banner-1.png" alt="Evento 3" />
-            <h3>Evento 3</h3>
-            <p>Descrição do Evento 3.</p>
-            <a href="#" className="event-button">
-              Acessar
-            </a>
-          </div>
-          <div className="event-card">
-            <img src="assets/eventos/img/banner-1.png" alt="Evento 4" />
-            <h3>Evento 4</h3>
-            <p>Descrição do Evento 4.</p>
-            <a href="#" className="event-button">
-              Acessar
-            </a>
-          </div>
-          <div className="event-card">
-            <img src="assets/eventos/img/banner-1.png" alt="Evento 5" />
-            <h3>Evento 5</h3>
-            <p>Descrição do Evento 5.</p>
-            <a href="#" className="event-button">
-              Acessar
-            </a>
-          </div>
-          <div className="event-card">
-            <img src="assets/eventos/img/banner-1.png" alt="Evento 6" />
-            <h3>Evento 6</h3>
-            <p>Descrição do Evento 6.</p>
-            <a href="#" className="event-button">
-              Acessar
-            </a>
-          </div>
-          <div className="event-card">
-            <img src="assets/eventos/img/banner-1.png" alt="Evento 7" />
-            <h3>Evento 7</h3>
-            <p>Descrição do Evento 7.</p>
-            <a href="#" className="event-button">
-              Acessar
-            </a>
-          </div>
-          <div className="event-card">
-            <img src="assets/eventos/img/banner-1.png" alt="Evento 8" />
-            <h3>Evento 8</h3>
-            <p>Descrição do Evento 8.</p>
-            <a href="#" className="event-button">
-              Acessar
-            </a>
-          </div>
+            )
+          })}
         </div>
       </div>
     </div>
