@@ -24,9 +24,11 @@ export async function getAllEvents(req, res) {
 export async function getEventById(req, res) {
   const { id } = req.params;
 
+  const idNumber = Number(id)
+
   const event = await prisma.eventos.findUnique({
     where: {
-      id,
+      id:idNumber
     },
   });
 
@@ -44,3 +46,4 @@ export async function getUserEvents(_req, res) {
 
   return res.status(200).json(events ?? {});
 }
+

@@ -4,7 +4,8 @@ import { getUser } from './controller/user.js';
 import { verifyUser } from './middleware/verify-user.js';
 import { getDisciplines } from './controller/disciplines.js';
 import { getCourses } from './controller/courses.js';
-import { getAllEvents, subscribeEvent } from './controller/events.js';
+import { getAllEvents, subscribeEvent, getEventById } from './controller/events.js';
+
 import { getFrequency } from './controller/frequency.js';
 import { getGrades } from './controller/grades.js';
 
@@ -30,6 +31,9 @@ router.get('/disciplines', verifyUser, getDisciplines);
 
 // Events
 router.get('/events', verifyUser, getAllEvents);
+
+router.get('/events/:id', verifyUser, getEventById);
+
 
 router.post('/events', verifyUser, subscribeEvent);
 

@@ -13,6 +13,8 @@ import {
 export default function Central() {
   const { data } = useSWR('/disciplines', (url) => fetchApi(url));
 
+
+
   return (
     <Box padding="16px">
       <Heading as="h1" size="lg" mb="1rem">

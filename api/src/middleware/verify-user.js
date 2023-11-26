@@ -14,6 +14,7 @@ export async function verifyUser(req, res, next) {
 
     const user = jwt.verify(token, process.env.SECREAT_KEY);
 
+
     const userFromDb = await prisma.aluno.findUnique({
       where: {
         ra: user.user,

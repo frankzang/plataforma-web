@@ -1,5 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Eventos from '../src/pages/Eventos';
+import EventosInfor from '../src/pages/EventsInfor';
+
 import Central from './pages/Central';
 import Login from './pages/Login';
 import { AuthProvider } from './context/auth.jsx';
@@ -40,6 +42,9 @@ function App() {
                 </Route>
                 <Route path="/eventos" element={<ProtectedRoute />}>
                   <Route path="/eventos" element={<Eventos />} />
+                </Route>
+                <Route path="/eventInfor/:id" element={<ProtectedRoute />}>
+                  <Route path="/eventInfor/:id" element={ <Main><EventosInfor /></Main>} />
                 </Route>
                 <Route path="/login" element={<Login />} />
               </Routes>
