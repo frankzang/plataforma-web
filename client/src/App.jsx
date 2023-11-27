@@ -52,7 +52,14 @@ function App() {
                   />
                 </Route>
                 <Route path="/eventos" element={<ProtectedRoute />}>
-                  <Route path="/eventos" element={<Eventos />} />
+                  <Route
+                    path="/eventos"
+                    element={
+                      <Main>
+                        <Eventos />
+                      </Main>
+                    }
+                  />
                 </Route>
                 <Route path="/eventInfor/:id" element={<ProtectedRoute />}>
                   <Route

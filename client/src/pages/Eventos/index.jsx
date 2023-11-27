@@ -1,68 +1,37 @@
 import useSWR from 'swr';
 import './styles.css';
 import { fetchApi } from '../../data/fetchApi';
-import { useNavigate , Link} from 'react-router-dom';
+import { Link as RRDLink } from 'react-router-dom';
+import { Box, Button, Flex, Heading } from '@chakra-ui/react';
 
 export default function Eventos() {
+  const { data } = useSWR('/events', (url) => fetchApi(url));
 
-  const {data,isLoading} = useSWR('/events', (url) => fetchApi(url))
-
-
-  function goToEventsInforPage(id){
-    useNavigate(`/eventInfor/${id}`)
-  }
+  console.log({ data });
 
   return (
-    <div className="container">
-      <div className="sidebar">
-        <img
-          src="assets/eventos/img/imagem perfil.jpg"
-          alt="Perfil"
-          className="profile-img"
-        />
-        <h2>Eric Cartman</h2>
-        <h3>Sistema de informação</h3>
-        <nav className="menu">
-          <ul>
-            <li>
-              <a href="/">Feed</a>
-            </li>
-            <li>
-              <a href="/central">Central do aluno</a>
-            </li>
-            <li>
-              <a href="/eventos">Eventos</a>
-            </li>
-          </ul>
-        </nav>
-      </div>
-      <div className="right-content">
-        <header className="top-menu">
-          <img src="assets/eventos/img/logo-unifap.png" alt="Logo UNIFAP" />
-          <ul>
-            <li>
-              <a href="#">Cursos</a>
-            </li>
-            <li>
-              <a href="#">Fale Conosco</a>
-            </li>
-          </ul>
-        </header>
-        <div className="events-grid">
-
-          {data?.map(event => {
-            return(
+    <Box>
+      <Heading as="h1" size="lg" mb="10">
+        Eventos
+      </Heading>
+      <Flex wrap="wrap" gap="16px">
+        {data?.map((event) => {
+          return (
             <div className="event-card" key={event.id}>
-            <img src="assets/eventos/img/banner-1.png" alt="Evento 1" />
-            <h3>{event.nome}</h3>
-            <Link to={`/eventInfor/${event.id}`} className="event-button">
-              Acessar
-            </Link>
-          </div>
-            )
-          })}
-        </div>
-      </div>
-    </div>
+              <img src={event.coverImg} alt="" />
+              <h3>{event.nome}</h3>
+              <Button
+                as={RRDLink}
+                size="sm"
+                colorScheme="purple"
+                to={`/eventInfor/${event.id}`}
+              >
+                Acessar
+              </Button>
+            </div>
+          );
+        })}
+      </Flex>
+    </Box>
   );
 }
