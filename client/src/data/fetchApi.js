@@ -1,3 +1,4 @@
+
 const BASE_URL = 'http://localhost:8080';
 
 /**
@@ -16,8 +17,6 @@ export const fetchApi = async (url, options) => {
     ...options,
   };
   const response = await fetch(`${BASE_URL}${url}`, fetchOptions);
-
-  if (!response.ok) throw new Error('Api error');
 
   const data = await response.json();
 

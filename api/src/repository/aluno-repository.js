@@ -29,9 +29,18 @@ export async function subscribeStudentOnEvent(eventId, ra) {
   const subscription = await prisma.eventosInscricao.create({
     data:{
       idEvent:eventId, 
-      ra: ra
+      ra: ra,
+    },
+    include:{
+      aluno:{
+        select:{
+          ra:true,
+        }
+      }
     }
   })
+
+  console.log(subscription)
  
  return subscription
  }

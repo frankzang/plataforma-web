@@ -7,16 +7,27 @@ import { prisma } from '../../prisma/bd/prisma.js';
 import { subscribeEventUseCase } from '../use-case/subscribe-event.js';
 
 export async function subscribeEvent(req, res) {
-  const { evendId } = req.body;
+  const { eventId } = req.params;
+  console.log({eventId})
   const { user } = res.locals.auth;
+  console.log({user})
 
-  await subscribeEventUseCase(evendId, user);
+  await subscribeEventUseCase(Number(eventId), user);
 
-  return res.status(200).send('Inscrição realizada com sucesso');
+
+  return res.status(200).json('Inscrição realizada com sucesso');
 }
 
 export async function getAllEvents(req, res) {
-  const events = await prisma.eventos.findMany();
+  const events = await prisma.eventos.findMany({
+    include:{
+      alunos:{
+        select:{
+          ra:true,
+        }
+      }
+    }
+  });
 
   return res.status(200).json(events);
 }
@@ -38,9 +49,13 @@ export async function getEventById(req, res) {
 export async function getUserEvents(_req, res) {
   const { user } = res.locals.auth;
 
-  const events = await prisma.eventosInscricao.findMany({
+  const events = await prisma.eventos.findMany({
     where: {
-      aluno: user,
+      alunos:{
+        some:{
+          ra:user.user
+        }
+      }
     },
   });
 

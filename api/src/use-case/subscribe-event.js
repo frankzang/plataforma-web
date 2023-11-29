@@ -12,6 +12,8 @@ export async function subscribeEventUseCase(eventId, ra) {
 
     const aluno = await findStudentOnEvent(eventId)
 
+    console.log({aluno})
+
     if(aluno) throw new AppError("Aluno já inscrito no evento", 400)
 
     await subscribeStudentOnEvent(eventId, ra)

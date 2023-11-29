@@ -9,6 +9,9 @@ import { getAllEvents, subscribeEvent, getEventById } from './controller/events.
 import { getFrequency } from './controller/frequency.js';
 import { getGrades } from './controller/grades.js';
 
+import { getUserEvents } from './controller/events.js';
+
+
 export const router = Router();
 
 // Session
@@ -33,9 +36,10 @@ router.get('/disciplines', verifyUser, getDisciplines);
 router.get('/events', verifyUser, getAllEvents);
 
 router.get('/events/:id', verifyUser, getEventById);
+router.get('/students/events', verifyUser, getUserEvents);
 
 
-router.post('/events', verifyUser, subscribeEvent);
+router.post('/events/subscribe/:eventId', verifyUser, subscribeEvent);
 
 // Frequencies
 router.get('/frequency', verifyUser, getFrequency);

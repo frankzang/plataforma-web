@@ -19,6 +19,8 @@ import {
 export default function CenTral() {
   const { data } = useSWR('/disciplines', (url) => fetchApi(url));
 
+  console.log({data});
+
   return (
     <Flex direction="column" gap="16px" padding="16px">
       <Heading as="h1" size="lg" mb="1rem">

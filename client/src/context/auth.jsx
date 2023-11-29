@@ -2,7 +2,7 @@ import { createContext, useEffect, useMemo, useState } from 'react';
 import { getUser } from '../loaders/user';
 import { useContext } from 'react';
 
-const AuthContext = createContext(undefined);
+export const AuthContext = createContext(undefined);
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
@@ -20,9 +20,11 @@ export const AuthProvider = (props) => {
 
   useEffect(() => {
     getUser().then((user) => {
-      setUser(user);
-      setIsLoaded(true);
-    });
+    if(user.message) return 
+      setUser(user)
+    }).finally(() => {
+      setIsLoaded(true)
+    })
   }, []);
 
   const value = useMemo(

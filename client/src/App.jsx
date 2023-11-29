@@ -61,9 +61,9 @@ function App() {
                     }
                   />
                 </Route>
-                <Route path="/eventInfor/:id" element={<ProtectedRoute />}>
+                <Route path="/eventInfor/:id/:hasSubscribed" element={<ProtectedRoute />}>
                   <Route
-                    path="/eventInfor/:id"
+                    path="/eventInfor/:id/:hasSubscribed"
                     element={
                       <Main>
                         <EventosInfor />
